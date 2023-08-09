@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+
 	"todo-list/internal/app"
 
 	. "todo-list/internal/app/endpoints"
@@ -13,33 +14,27 @@ func main() {
 	flag.Parse()
 
 	repository := (&app.InMemoryTodoRepository{}).Init()
-	mainService := &app.MainService{Repository: repository}
+	mainPoint := app.Endpoint{
+		Service: &app.MainService{Repository: repository},
+	}
 
 	server := &app.Server{}
 	server.Serve(&EndpointPing{})
 
 	server.Serve(&EndpointCreateTask{
-		Endpoint: app.Endpoint{
-			Service: mainService,
-		},
+		Endpoint: mainPoint,
 	})
 
 	server.Serve(&EndpointUpdateTask{
-		Endpoint: app.Endpoint{
-			Service: mainService,
-		},
+		Endpoint: mainPoint,
 	})
 
 	server.Serve(&EndpointDeleteTask{
-		Endpoint: app.Endpoint{
-			Service: mainService,
-		},
+		Endpoint: mainPoint,
 	})
 
 	server.Serve(&EndpointGetTasks{
-		Endpoint: app.Endpoint{
-			Service: mainService,
-		},
+		Endpoint: mainPoint,
 	})
 
 	server.Start(*portFlag)
