@@ -1,5 +1,8 @@
 ### Basic TODO service
 
+### Service for management todo list via API using memory storage. 
+
+
 #### 1. Create a new task
 ```bash
 curl --location --request POST 'localhost:3000/task' \
